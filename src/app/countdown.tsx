@@ -22,9 +22,18 @@ type BirthdayState = {
 // const birthdayStart = Date.UTC(2026, 7, 31, 7);
 // const birthdayEnd = Date.UTC(2026, 8, 1, 7);
 
-const testCountdownDuration = 30 * 1000;
-const testBirthdayDuration = 30 * 1000;
+const emptyTimeLeft = {
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+};
+
+const testCountdownDuration = 5 * 60 * 1000;
+const testBirthdayDuration = 5 * 60 * 1000;
+const testStateListeners = new Set<() => void>();
 let testWindow: { birthdayStart: number; birthdayEnd: number } | null = null;
+let manualTestPhase: BirthdayPhase | null = null;
 
 function getTimeLeft(difference: number): TimeLeft {
   return {
@@ -44,24 +53,14 @@ function getBirthdayState(
   if (now >= birthdayEnd) {
     return {
       phase: "after",
-      timeLeft: {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      },
+      timeLeft: emptyTimeLeft,
     };
   }
 
   if (now >= birthdayStart) {
     return {
       phase: "birthday",
-      timeLeft: {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      },
+      timeLeft: emptyTimeLeft,
     };
   }
 
@@ -87,6 +86,30 @@ function getTestBirthdayWindow() {
   return testWindow;
 }
 
+function getCurrentBirthdayState() {
+  if (manualTestPhase) {
+    return {
+      phase: manualTestPhase,
+      timeLeft: emptyTimeLeft,
+    };
+  }
+
+  const { birthdayStart, birthdayEnd } = getTestBirthdayWindow();
+
+  return getBirthdayState(birthdayStart, birthdayEnd);
+}
+
+export function setTestBirthdayPhase(phase: BirthdayPhase) {
+  if (phase === "before") {
+    manualTestPhase = null;
+    testWindow = null;
+  } else {
+    manualTestPhase = phase;
+  }
+
+  testStateListeners.forEach((listener) => listener());
+}
+
 export function useBirthdayState() {
   const [birthdayState, setBirthdayState] = useState<BirthdayState | null>(
     null,
@@ -94,19 +117,19 @@ export function useBirthdayState() {
 
   useEffect(() => {
     // Temporary test window: every full page reload starts a fresh countdown
-    // that ends in 2 minutes, then birthday mode stays active for 10 minutes.
+    // that ends in 5 minutes, then birthday mode stays active for 5 minutes.
     // Keep this until the full website is ready, then restore the production
     // PDT constants above.
-    const { birthdayStart, birthdayEnd } = getTestBirthdayWindow();
-
     const updateCountdown = () => {
-      setBirthdayState(getBirthdayState(birthdayStart, birthdayEnd));
+      setBirthdayState(getCurrentBirthdayState());
     };
 
+    testStateListeners.add(updateCountdown);
     const initialTimer = window.setTimeout(updateCountdown, 0);
     const timer = window.setInterval(updateCountdown, 1000);
 
     return () => {
+      testStateListeners.delete(updateCountdown);
       window.clearTimeout(initialTimer);
       window.clearInterval(timer);
     };
@@ -140,13 +163,15 @@ export function BirthdayHero() {
             <span>Aaditya</span>
           </h1>
           <p className="intro">
-            One whole year of joy, wonder, firsts, and love worth celebrating.
+            One whole year of little firsts, bright smiles, quiet cuddles, and
+            so much love.
             <span>
-              Step into his first-year journal, leave him a wish, or read the
-              love already shared for this special day.
+              Today we&apos;re celebrating his first birthday with memories from
+              his first year and wishes from the people who love him.
             </span>
           </p>
         </div>
+        <ScrollCue />
       </section>
     );
   }
@@ -158,13 +183,15 @@ export function BirthdayHero() {
           <p className="eyebrow">August 31, 2026</p>
           <h1>
             Our Baby Boy is One
-            <span>the celebration continues</span>
+            <span>his first year lives here</span>
           </h1>
           <p className="intro">
-            His first birthday has passed, but the memories and wishes are here
-            to revisit and cherish.
+            His first birthday has passed, but this little collection of
+            memories, milestones, and wishes is here to revisit, remember, and
+            cherish.
           </p>
         </div>
+        <ScrollCue />
       </section>
     );
   }
@@ -174,12 +201,12 @@ export function BirthdayHero() {
       <div className="hero-copy">
         <p className="eyebrow">August 31, 2026</p>
         <h1>
-          Aaditya&apos;s first birthday
-          <span>one whole year of you</span>
+          Aaditya Turns One
+          <span>The big day is almost here</span>
         </h1>
         <p className="intro">
-          A soft little home for Aaditya&apos;s sweetest first year, wrapped in
-          watercolor blues, cloud-light details, and all the love around him.
+          Celebrate with us by looking back at the most precious moments from
+          his first year and sending in your birthday wishes.
         </p>
       </div>
       <div
@@ -195,6 +222,39 @@ export function BirthdayHero() {
           </div>
         ))}
       </div>
+      <ScrollCue />
+    </section>
+  );
+}
+
+function ScrollCue() {
+  return (
+    <a className="scroll-cue" href="#journal-preview">
+      Explore his first year
+      <span aria-hidden="true" />
+    </a>
+  );
+}
+
+export function BirthdayTestControls() {
+  const birthdayState = useBirthdayState();
+  const phase = birthdayState?.phase ?? "before";
+
+  return (
+    <section className="test-controls" aria-label="Birthday state test controls">
+      <p>Test birthday state</p>
+      <div>
+        <button type="button" onClick={() => setTestBirthdayPhase("before")}>
+          Reset countdown
+        </button>
+        <button type="button" onClick={() => setTestBirthdayPhase("birthday")}>
+          Birthday
+        </button>
+        <button type="button" onClick={() => setTestBirthdayPhase("after")}>
+          After
+        </button>
+      </div>
+      <span>Current: {phase}</span>
     </section>
   );
 }

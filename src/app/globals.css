@@ -5,7 +5,7 @@
   --foreground: #2f3a47;
   --font-body: "Nunito Sans", Arial, Helvetica, sans-serif;
   --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-script: "Fleur De Leah", "Brush Script MT", "Segoe Script", cursive;
+  --font-script: "Italianno", "Brush Script MT", "Segoe Script", cursive;
   --blue-ink: #527ca7;
   --blue-soft: #dcecff;
   --blue-wash: #edf7ff;
@@ -105,17 +105,65 @@ a {
   border-color: var(--blue-ink);
 }
 
+.topbar nav a.nav-active {
+  color: var(--blue-ink);
+  border-color: var(--blue-ink);
+}
+
 .hero {
   position: relative;
   display: grid;
-  min-height: auto;
+  min-height: calc(100svh - 46px);
   align-content: center;
   justify-items: center;
   gap: clamp(1rem, 2.4vw, 1.45rem);
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: clamp(3rem, 8vh, 5.25rem) 0 clamp(1.35rem, 4vw, 2.25rem);
+  padding: clamp(1.6rem, 5vh, 3rem) 0 clamp(1.8rem, 5vh, 3.25rem);
   text-align: center;
+}
+
+.scroll-cue {
+  display: inline-grid;
+  justify-items: center;
+  gap: 0.35rem;
+  margin-top: clamp(0.25rem, 1vh, 0.65rem);
+  color: #527ca7;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  opacity: 0.82;
+  text-transform: uppercase;
+}
+
+.scroll-cue span {
+  width: 0.58rem;
+  height: 0.58rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.section-scroll-cue {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  margin: clamp(0.9rem, 2vw, 1.3rem) auto clamp(0.8rem, 2vw, 1.2rem);
+  color: #527ca7;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  opacity: 0.82;
+  text-transform: uppercase;
+}
+
+.section-scroll-cue span {
+  width: 0.58rem;
+  height: 0.58rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
 }
 
 .hero-copy {
@@ -164,17 +212,31 @@ h1 span {
   line-height: 0.95;
 }
 
-.hero-birthday h1 {
-  font-size: clamp(3rem, 8vw, 6rem);
+.hero-before h1,
+.hero-birthday h1,
+.hero-after h1 {
+  font-size: clamp(2.2rem, 5vw, 3.7rem);
+}
+
+.hero-before h1 span,
+.hero-birthday h1 span,
+.hero-after h1 span {
+  font-size: clamp(2.65rem, 6vw, 4.25rem);
+  white-space: nowrap;
 }
 
 .hero-birthday h1 span {
-  font-size: clamp(4rem, 11vw, 8rem);
-  margin-bottom: clamp(0.5rem, 1.8vw, 1.1rem);
+  margin-top: 0.1rem;
+  margin-bottom: clamp(0.45rem, 1.4vw, 0.85rem);
 }
 
-.hero-after h1 span {
-  font-size: clamp(2.8rem, 7vw, 5.2rem);
+.hero-birthday h1 {
+  font-size: clamp(2.6rem, 6.1vw, 4.65rem);
+}
+
+.hero-birthday h1 span {
+  font-size: clamp(4.4rem, 11vw, 8.2rem);
+  white-space: nowrap;
 }
 
 .intro {
@@ -300,6 +362,99 @@ h1 span {
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
   padding: clamp(1.2rem, 4vw, 2.4rem) 0;
+  scroll-margin-top: 96px;
+}
+
+.preview-stop {
+  display: grid;
+  padding-block: clamp(1.1rem, 3vw, 2rem);
+  scroll-margin-top: 96px;
+}
+
+#journal-preview {
+  margin-top: clamp(-2rem, -3vw, -1rem);
+  padding-top: clamp(0.6rem, 2vw, 1.2rem);
+}
+
+#journal-preview .preview-band,
+#wishes-preview .preview-band {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: clamp(1.3rem, 3vw, 2rem);
+  text-align: center;
+}
+
+#journal-preview .preview-copy,
+#wishes-preview .preview-copy {
+  justify-items: center;
+  max-width: 720px;
+}
+
+#journal-preview .preview-copy h2,
+#wishes-preview .preview-copy h2 {
+  color: var(--blue-ink);
+  font-family: var(--font-script);
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+#journal-preview .preview-copy h2 span,
+#wishes-preview .preview-copy h2 span {
+  display: inline;
+  color: inherit;
+  font: inherit;
+}
+
+#journal-preview .preview-copy p:not(.eyebrow),
+#wishes-preview .preview-copy p:not(.eyebrow) {
+  max-width: 620px;
+}
+
+#journal-preview .preview-card-row,
+#wishes-preview .wish-preview-row {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.85rem, 1.8vw, 1.15rem);
+  width: min(960px, 100%);
+}
+
+#journal-preview .preview-card,
+#wishes-preview .wish-preview-card {
+  gap: 0.55rem;
+  min-height: 300px;
+  padding: clamp(0.85rem, 1.8vw, 1.05rem);
+}
+
+#journal-preview .preview-card {
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+#journal-preview .preview-card:hover {
+  border-color: rgba(82, 124, 167, 0.48);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(226, 241, 255, 0.84)),
+    var(--paper);
+  box-shadow: 0 28px 58px rgba(82, 124, 167, 0.24);
+  transform: translateY(-8px) scale(1.025);
+}
+
+#journal-preview .preview-photo {
+  min-height: 92px;
+  border-width: 5px;
+  transition: transform 180ms ease;
+}
+
+#journal-preview .preview-card:hover .preview-photo {
+  transform: scale(1.03);
+}
+
+.journal-preview-action {
+  justify-self: center;
+  margin-top: clamp(0.25rem, 1vw, 0.65rem);
 }
 
 .preview-band-wishes {
@@ -311,11 +466,15 @@ h1 span {
   gap: 0.75rem;
 }
 
+.preview-copy h2 {
+  font-size: clamp(2.2rem, 5vw, 3.7rem);
+}
+
 .preview-copy h2 span {
   display: block;
   color: var(--blue-ink);
   font-family: var(--font-script);
-  font-size: clamp(2.3rem, 5vw, 3.8rem);
+  font-size: clamp(2.65rem, 6vw, 4.25rem);
   font-weight: 400;
   line-height: 0.95;
 }
@@ -355,7 +514,7 @@ h1 span {
 .wish-teaser-card {
   display: grid;
   gap: 0.65rem;
-  min-height: 180px;
+  min-height: 260px;
   padding: clamp(1rem, 2.5vw, 1.35rem);
   border: 1px solid rgba(112, 154, 195, 0.24);
   border-radius: 8px;
@@ -363,6 +522,86 @@ h1 span {
     linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(237, 247, 255, 0.7)),
     var(--paper);
   box-shadow: 0 16px 34px rgba(82, 124, 167, 0.11);
+}
+
+.journal-explore-card {
+  align-content: center;
+  justify-items: center;
+  min-height: 100%;
+  text-align: center;
+}
+
+.wishes-explore-card {
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.wishes-preview-action {
+  justify-self: center;
+  margin-top: clamp(0.25rem, 1vw, 0.65rem);
+}
+
+.wish-preview-card,
+.wish-teaser-card {
+  min-height: 180px;
+}
+
+.preview-photo {
+  position: relative;
+  min-height: 112px;
+  overflow: hidden;
+  border: 6px solid rgba(255, 255, 255, 0.78);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.95) 0 10%, transparent 11%),
+    linear-gradient(135deg, rgba(213, 231, 249, 0.95), rgba(255, 247, 239, 0.92));
+  box-shadow:
+    inset 0 0 0 1px rgba(112, 154, 195, 0.16),
+    0 10px 22px rgba(82, 124, 167, 0.11);
+}
+
+.preview-photo::before,
+.preview-photo::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  border-radius: 999px;
+  filter: blur(1px);
+}
+
+.preview-photo::before {
+  width: 58%;
+  height: 52%;
+  right: -12%;
+  bottom: -18%;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.preview-photo::after {
+  width: 48%;
+  height: 42%;
+  left: -10%;
+  top: -14%;
+  background: rgba(179, 211, 240, 0.38);
+}
+
+.preview-photo-newborn {
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.95) 0 9%, transparent 10%),
+    linear-gradient(135deg, rgba(245, 224, 208, 0.96), rgba(231, 242, 252, 0.9));
+}
+
+.preview-photo-six-months {
+  background:
+    radial-gradient(circle at 70% 26%, rgba(255, 255, 255, 0.9) 0 10%, transparent 11%),
+    linear-gradient(135deg, rgba(210, 231, 250, 0.98), rgba(249, 252, 255, 0.92));
+}
+
+.preview-photo-birthday {
+  background:
+    radial-gradient(circle at 48% 24%, rgba(255, 255, 255, 0.95) 0 8%, transparent 9%),
+    linear-gradient(135deg, rgba(224, 239, 252, 0.96), rgba(255, 241, 225, 0.92));
 }
 
 .preview-label {
@@ -375,9 +614,11 @@ h1 span {
 
 .preview-card h3 {
   color: #4e78a2;
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
-  font-weight: 600;
+  font-family: var(--font-script);
+  font-size: clamp(1.72rem, 2.7vw, 2rem);
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .preview-card p,
@@ -410,18 +651,22 @@ h1 span {
 
 .wish-preview-card strong {
   color: #4e78a2;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-family: var(--font-script);
+  font-size: 1.9rem;
+  font-weight: 400;
+  line-height: 0.95;
 }
 
 .home-wish-form-band {
   display: grid;
+  align-content: center;
   justify-items: center;
-  gap: clamp(1.1rem, 3vw, 1.7rem);
+  gap: clamp(0.8rem, 2vw, 1.2rem);
   width: min(900px, calc(100% - 2rem));
+  min-height: calc(100svh - 70px);
   margin: 0 auto;
-  padding: clamp(1.4rem, 4vw, 2.8rem) 0 clamp(2.4rem, 6vw, 4rem);
+  padding: clamp(0.9rem, 2.5vw, 1.6rem) 0 clamp(1.4rem, 4vw, 2.4rem);
+  scroll-margin-top: 96px;
 }
 
 .subpage-shell {
@@ -460,7 +705,7 @@ h1 span {
 .home-wish-form-band .section-heading h2 {
   color: var(--blue-ink);
   font-family: var(--font-script);
-  font-size: clamp(2.8rem, 7vw, 4.6rem);
+  font-size: clamp(2.65rem, 6vw, 4.25rem);
   font-weight: 400;
   line-height: 0.95;
   white-space: nowrap;
@@ -517,21 +762,21 @@ h2 {
 
 .wish-form-preview {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.62rem;
   width: min(640px, 100%);
   margin-inline: auto;
-  padding: clamp(1.1rem, 4vw, 1.6rem);
+  padding: clamp(1rem, 2.8vw, 1.35rem);
   border: 1px solid rgba(112, 154, 195, 0.26);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 18px 40px rgba(82, 124, 167, 0.12);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 20px 44px rgba(82, 124, 167, 0.13);
 }
 
 .wish-form-preview label {
   color: var(--blue-ink);
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
 }
 
@@ -540,23 +785,130 @@ h2 {
   width: 100%;
   border: 1px solid rgba(112, 154, 195, 0.34);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.9);
   color: var(--foreground);
   font: inherit;
+  font-size: 0.95rem;
+  padding: 0.78rem 0.9rem;
+}
+
+.wish-form-preview input {
+  min-height: 52px;
+}
+
+.upload-field {
+  display: grid;
+  place-items: center;
+  gap: 0.38rem;
+  width: 100%;
+  min-height: 96px;
+  border: 1.5px dashed rgba(112, 154, 195, 0.46);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.62);
+  cursor: pointer;
   padding: 0.9rem 1rem;
+  text-align: center;
+}
+
+.upload-field span {
+  color: #4e78a2;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.upload-field small {
+  color: #65717f;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.upload-field input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .wish-form-preview textarea {
-  min-height: 150px;
+  min-height: 118px;
   resize: vertical;
 }
 
 .wish-form-preview button {
   justify-self: center;
-  width: fit-content;
+  min-width: 240px;
   border: 1px solid #4e78a2;
   background: #4e78a2;
   color: #ffffff;
+}
+
+.field-help {
+  margin-top: -0.42rem;
+  color: #65717f;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.test-controls {
+  display: grid;
+  justify-items: center;
+  gap: 0.65rem;
+  width: min(640px, calc(100% - 2rem));
+  margin: 0 auto clamp(2rem, 5vw, 3rem);
+  padding: 1rem;
+  border: 1px dashed rgba(82, 124, 167, 0.35);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.42);
+  color: #65717f;
+  text-align: center;
+}
+
+.test-controls p {
+  color: var(--blue-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.test-controls div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.test-controls button {
+  min-height: 36px;
+  border: 1px solid rgba(82, 124, 167, 0.38);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.68);
+  color: #4e78a2;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.55rem 0.8rem;
+  text-transform: uppercase;
+}
+
+.test-controls button:hover {
+  border-color: #4e78a2;
+  background: rgba(237, 247, 255, 0.86);
+}
+
+.test-controls span {
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .wish-band {
@@ -602,6 +954,10 @@ h2 {
 @media (max-width: 520px) {
   .topbar nav {
     font-size: 0.82rem;
+  }
+
+  .hero-before h1 span {
+    white-space: normal;
   }
 
   .home-wish-form-band .section-heading h2 {
